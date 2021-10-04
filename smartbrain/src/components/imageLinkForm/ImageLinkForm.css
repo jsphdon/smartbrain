@@ -1,0 +1,21 @@
+.form {
+  width: 700px;
+  background: #24C6DC;
+}
+
+p {
+  color: white;
+  font-weight: bold;
+}
+
+button {
+  border-radius: 10px;
+  margin-left: 5px;
+  cursor: pointer;
+  transition: all 0.5s linear;
+}
+
+button:hover {
+  color: red;
+  background: white;
+}
