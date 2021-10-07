@@ -36,7 +36,33 @@ class App extends Component {
       box: {},
       route: 'signin',
       isSignedIn: false,
+      user:{
+        id: '', 
+        name: '', 
+        email: '', 
+        password: '', 
+        entries: 0, 
+        joined: ''
+      }
     }
+  }
+
+  //! communicate with the backend server
+  // componentDidMount(){
+  //   fetch('http://localhost:3000/')
+  //   .then(response => response.json())
+  //   .then(console.log);
+  // }
+
+  loadUser=(user)=>{
+    this.setState({user:{
+        id: user.id, 
+        name: user.name, 
+        email: user.email, 
+        password: user.password, 
+        entries: user.entries, 
+        joined: user.joined
+    }})
   }
 
   //calculate the face location
@@ -69,7 +95,25 @@ class App extends Component {
     this.setState({imageUrl:this.state.input});
 
     //Clarifai API
-    app.models.predict(Clarifai.FACE_DETECT_MODEL,this.state.input).then(response => this.displayFaceBox(this.calculateFaceLocation(response)) ).catch(err => console.log(err));
+    app.models.predict(Clarifai.FACE_DETECT_MODEL,this.state.input)
+    .then(response =>
+      {if(response)
+        {
+          fetch('http://localhost:3000/image', 
+          {method: 'PUT',
+          headers: { 'Content-Type': 'application/json'},
+          body: JSON.stringify({ 
+            id: this.state.user.id,  
+          })
+          })
+          .then(response => response.json())
+          .then(count => {
+            this.setState(Object.assign(this.state.user, {entries: count}))
+          })
+        }this.displayFaceBox(this.calculateFaceLocation(response))
+      }
+       )
+    .catch(err => console.log(err));
   }
 
   onRouteChange = (route) => {
@@ -93,7 +137,7 @@ class App extends Component {
           
             <Logo />
 
-            <Rank />
+            <Rank name={this.state.user.name} entries={this.state.user.entries}/>
             
             <ImageLinkForm onInputChange={this.onInputChange} onSubmit={this.onSubmit}/>
             
@@ -103,8 +147,8 @@ class App extends Component {
 
           : (
               this.state.route === 'signin' 
-              ? <Signin onRouteChange={this.onRouteChange}/>
-              : <Register onRouteChange={this.onRouteChange}/>
+              ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+              : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
             )
           
           }
