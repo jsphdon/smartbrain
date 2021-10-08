@@ -34,7 +34,7 @@ class Register extends Component{
         password: this.state.password 
       })
     }).then(response => response.json()).then(user => {
-      if(user){
+      if(user.id){
         this.props.loadUser(user);
         this.props.onRouteChange('home');
       }
@@ -49,15 +49,15 @@ class Register extends Component{
             <legend className="f1 fw6 ph0 mh0 white">Register</legend>
             <div className="mt3">
               <label className="db fw6 lh-copy f4" htmlFor="name">Name</label>
-              <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="name"  id="name" onChange={this.onNameChange}/>
+              <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="name"  id="name" onChange={this.onNameChange} required/>
             </div>
             <div className="mt3">
               <label className="db fw6 lh-copy f4" htmlFor="email-address">Email</label>
-              <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address"  id="email-address" onChange={this.onEmailChange}/>
+              <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address"  id="email-address" onChange={this.onEmailChange} required/>
             </div>
             <div className="mv3">
               <label className="db fw6 lh-copy f4" htmlFor="password">Password</label>
-              <input className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="password"  id="password" onChange={this.onPasswordChange}/>
+              <input className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="password"  id="password" onChange={this.onPasswordChange} required/>
             </div>
             
           </fieldset>
@@ -65,7 +65,7 @@ class Register extends Component{
             <input onClick={this.onSubmitRegister} className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f3 dib" type="submit" value="Register"/>
           </div>
           <div className="lh-copy mt3">
-          <p onClick={()=>this.props.onRouteChange('login')} className="f4 link dim black db" style={{cursor: 'pointer'}}>Login</p>
+          <p onClick={()=>this.props.onRouteChange('signin')} className="f4 link dim black db" style={{cursor: 'pointer'}}>Login</p>
           </div>
         </div>
       </main>
