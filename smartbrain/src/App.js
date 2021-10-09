@@ -43,8 +43,7 @@ class App extends Component {
 
   constructor(){
     super();
-    this.state = 
-      initialState
+    this.state = initialState
   }
 
   //! communicate with the backend server
